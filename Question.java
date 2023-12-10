@@ -1,0 +1,76 @@
+import java.util.ArrayList;
+import java.util.Calendar;
+
+public class Question {
+    private String heading;
+    private String info;
+    private Calendar postDate;
+    private ArrayList<Reply> replies;
+    private User owner;
+    private int tag;
+    private String timePassed;
+
+    public Question(String heading, String info, int tag, Calendar postDate, ArrayList<Reply> replies, User owner){
+        this.heading = heading;
+        this.info = info;
+        this.tag = tag;
+        this.postDate = postDate;
+        this.replies = replies;
+        this.owner = owner;
+        long timeDiff = Application.currentTime.getTimeInMillis() - postDate.getTimeInMillis();
+        timeDiff /= (24 * 60 * 60 * 1000);
+        if (timeDiff % 365 != 0) {
+            timePassed = String.format("%d years ago", timeDiff % 365);
+        }
+        else if (timeDiff % 30 != 0) {
+            timePassed = String.format("%d days ago", timeDiff % 30);
+        }
+        else if (timeDiff %7 != 0) {
+            timePassed = String.format("%d weeks ago", timeDiff % 7);
+        }
+        else if (timeDiff != 0) {
+            timePassed = String.format("%d days ago", timeDiff);
+        }
+        else {
+            timeDiff = Application.currentTime.getTimeInMillis() - postDate.getTimeInMillis();
+            timeDiff /= 1000;
+            if (timeDiff % 3600 != 0) {
+                timePassed = String.format("%d hours ago", timeDiff);
+            }
+            else if(timeDiff % 60 != 0) {
+                timePassed = String.format("%d minutes ago", timeDiff);
+            }
+            else {
+                timePassed = String.format("%d seconds ago", timeDiff);
+            }
+        }
+        System.out.println(timeDiff);
+        System.out.println(timePassed);
+    }
+
+    public String getHeading() {
+        return heading;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public Calendar getPostDate() {
+        return postDate;
+    }
+
+    public ArrayList<Reply> getReplies() {
+        return replies;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+    public int getTag() {return tag;}
+
+    public void addReply(String content, User owner) {
+        replies.add(new Reply(content, owner, Application.currentTime));
+        //Save to database.
+    }
+}

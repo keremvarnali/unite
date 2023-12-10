@@ -1,7 +1,6 @@
 public class User {
 
-    private final String mail, name;
-    private String password;
+    String mail, password, name;
     public User(String mail, String password, String name) {
         this.mail = mail;
         setPassword(password);
